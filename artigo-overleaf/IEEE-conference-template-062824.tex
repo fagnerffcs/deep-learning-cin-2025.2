@@ -1,0 +1,204 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{multicol}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Classificação de Fake News Utilizando Deep Learning: Uma Abordagem Multimodelos}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Tenório, José Paulo Cauás}
+\IEEEauthorblockA{\textit{Centro de Informática} \\
+\textit{UFPE}\\
+Recife, Brasil \\
+jpct@cin.ufpe.br}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Silva, Fagner Fernandes Candido da}
+\IEEEauthorblockA{\textit{Centro de Informática} \\
+\textit{UFPE}\\
+Recife, Brasil  \\
+ffcs@cin.ufpe.br}
+}
+
+\maketitle
+
+\begin{abstract}
+A  proposta tem como objetivo aplicar modelos de Deep Learning para classificar notícias como verdadeiras ou falsas. Propõe-se utilizar modelos baseados em diferentes abordagens como Bag of Words, Embeddings e BERT, para realizar a extração de características textuais e efetuar a classificação binária das notícias. A proposta será validada utilizando o conjunto de dados ISOT Fake News Dataset, que contém 23.502 notícias falsas e 21.417 verdadeiras, com métricas de desempenho como acurácia, precisão, recall e F1-score.
+\end{abstract}
+
+\begin{IEEEkeywords}
+deep leaning, lstm, cnn, resnet, rnn.
+\end{IEEEkeywords}
+
+\section{Introdução}
+O estudo propõe um modelo híbrido de deep learning para detecção de fake news, combinando arquiteturas como CNN, Bidirectional LSTM e ResNet com word embeddings pré-treinados (Word2Vec, GloVe e fastText). Para mitigar desequilíbrios de classes, os autores aplicaram aumento de dados via back-translation (tradução reversa inglês-alemão-inglês). O pré-processamento incluiu etapas como remoção de pontuação, stopwords, lematização e tokenização.
+
+\subsection{Replicação de Baseline}
+
+Conjuntos de Dados: Quatro datasets públicos foram usados: ISOT Fake News, Fake News Dataset, Fake or Real News e Fake News Detection Dataset.
+
+Baseline: Compararam com trabalhos anteriores que utilizaram TF-IDF, SVM, Random Forest e LSTMs unidirecionais. Por exemplo, replicaram resultados de Ahmed et al. (2017) e Kaliyar et al. (2020), validando a superioridade do modelo proposto.
+
+Configuração: Testaram combinações de embeddings (Word2Vec, GloVe, fastText) e arquiteturas (CNN, Bidirectional LSTM, ResNet), além de ajustes de hiperparâmetros (batch size: 32–512; otimizadores: Adamax destacou-se).
+
+\subsection{Discussões e Insights}
+
+Bidirectional LSTM: Superou CNN e ResNet em todos os datasets, com acurácia de até 99,95% (ISOT Fake News + GloVe). A capacidade de capturar contexto bidirecional (passado e futuro) foi crucial.
+
+Impacto do Embedding: GloVe e fastText tiveram desempenhos variados. Por exemplo, no Fake News Dataset, fastText + Bidirectional LSTM obteve 98,65% de F1-score, superando estudos anteriores.
+
+Aumento de Dados: Reduziu desequilíbrios e melhorou a consistência dos modelos (aumento de até 3,8% nas métricas mínimas).
+
+ResNet: Apesar de eficaz contra vanishing gradient, teve desempenho inferior à LSTM, sugerindo limitações em tarefas textuais complexas.
+
+\subsection{Resultados Principais}
+
+Melhor Combinação: Bidirectional LSTM + GloVe/fastText, com acurácias entre 94,6\% (Fake or Real News) e 99,95\% (ISOT Fake News).
+
+Comparativo com State-of-the-Art: Superou baselines em todos os datasets. Exemplo:
+
+ISOT Fake News: 99,95\% (vs. 99\% de Ahmad et al. com Random Forest).
+
+Fake News Detection Dataset: 99,24\% (vs. 98,75\% de Bahad et al. com LSTM bidirecional).
+
+Casos de Erro: Modelos como CNN falharam em notícias longas com nomes próprios, enquanto a LSTM bidirecional manteve robustez.
+
+\subsection{Principais descobertas}
+
+O estudo demonstra que a combinação de embeddings contextuais (GloVe/fastText) com arquiteturas sequenciais bidirecionais (LSTM) é altamente eficaz para detecção de fake news. A replicação rigorosa de baselines e o ajuste hiperparamétrico reforçaram a validade dos resultados. Futuros trabalhos podem explorar adaptações para idiomas com menos recursos, como o indonésio, conforme mencionado pelos autores.
+
+\section{Reavaliando o estudo com uma proposta multimodelo}
+
+A crescente propagação de notícias falsas em plataformas digitais tem motivado o desenvolvimento de abordagens automatizadas de detecção baseadas em técnicas de Processamento de Linguagem Natural (PLN) e Aprendizado de Máquina. Este trabalho apresenta e compara cinco abordagens distintas para a classificação de notícias verdadeiras e falsas, utilizando diferentes formas de representação textual e algoritmos de aprendizado supervisionado. O objetivo é avaliar a eficácia de métodos clássicos e contemporâneos na tarefa de detecção de fake news.
+
+A primeira abordagem emprega a representação \textit{Bag of Words} (BoW) combinada com o classificador \textit{Naive Bayes}, uma técnica estatística tradicional amplamente utilizada em problemas de classificação textual. A segunda abordagem utiliza o modelo \textit{Term Frequency-Inverse Document Frequency} (TF-IDF) associado à \textit{Regressão Logística}, que busca capturar a importância relativa de palavras em documentos.
+
+A terceira abordagem explora representações semânticas de palavras utilizando vetores pré-treinados com \textit{Word2Vec}, combinados com o algoritmo \textit{Random Forest}, visando capturar relações semânticas mais profundas no texto. Em seguida, é apresentada uma alternativa com o modelo de vetorização \textit{GloVe} aliado ao classificador \textit{XGBoost}, com o objetivo de explorar um modelo robusto de embeddings e um algoritmo eficiente para aprendizado supervisionado.
+
+Por fim, a abordagem mais recente é baseada no modelo \textit{BERT} (\textit{Bidirectional Encoder Representations from Transformers}), que realiza \textit{fine-tuning} a partir de pesos pré-treinados em grandes corpora, representando o estado da arte em tarefas de PLN. Essa abordagem visa capturar as nuances contextuais das palavras por meio de atenção bidirecional.
+
+A comparação entre as abordagens visa evidenciar as vantagens e limitações de modelos tradicionais frente a modelos baseados em aprendizado profundo, além de propor possíveis caminhos para melhorias futuras.
+
+\begin{table}[h]
+\centering
+\caption{Resumo das Abordagens, Hiperparâmetros e Propostas de Melhoria}
+\begin{tabular}{|l|p{4cm}|p{4cm}|p{5cm}|}
+\hline
+\textbf{Abordagem} & \textbf{Hiperparâmetros Principais} & \textbf{Descrição} & \textbf{Propostas de Melhoria} \\
+\hline
+BoW + Naive Bayes & Tipo de vetor: binário ou contagem \newline Remoção de stopwords & Representação simples baseada na frequência de palavras & Aplicar seleção de características (ex: \textit{chi-square}), usar n-gramas, combinar com TF-IDF \\
+\hline
+TF-IDF + Logistic Regression & Regularização: L1/L2 \newline C (parâmetro de penalização) \newline N-gramas: (1,2) & Ponderação das palavras com base na frequência inversa & Ajuste de hiperparâmetros com \textit{Grid Search}, uso de \textit{stemming} ou \textit{lemmatization}, engenharia de features adicionais \\
+\hline
+Word2Vec + Random Forest & Número de árvores: 100-500 \newline Vetores Word2Vec: 300 dimensões & Média dos embeddings das palavras para representar o texto & Utilizar embeddings específicos do domínio, usar técnicas como \textit{Doc2Vec}, ajustar o número de árvores e profundidade \\
+\hline
+GloVe + XGBoost & Learning rate, número de estimadores, profundidade máxima & Vetores GloVe pré-treinados (ex: 300D) agregados por média & Testar agregações alternativas (ex: soma ponderada), ajuste fino de hiperparâmetros com \textit{Optuna}, uso de embeddings contextuais \\
+\hline
+BERT + Fine Tuning & Learning rate (ex: $2e^{-5}$), batch size, número de épocas & Modelo pré-treinado com fine-tuning sobre o corpus & Experimentar variantes como RoBERTa, aplicar técnicas de data augmentation, usar scheduler de taxa de aprendizado \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Análise Comparativa dos Métodos de Detecção de Fake News}
+
+% --- Para evitar sobreposição, use o ambiente table* e ajuste o texto ---
+\begin{table*}[ht]
+\centering
+\caption{Comparação de Métodos de Detecção de Fake News}
+\label{tab:resultados}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Método} & \textbf{Acurácia} & \textbf{Precisão} & \textbf{Recall} & \textbf{F1-score} \\
+\hline
+Bag of Words + Naive Bayes & 0.9500 & 0.9438 & 0.9551 & 0.9494 \\
+\hline
+TF-IDF + Logistic Regression & 0.9899 & 0.9887 & 0.9907 & 0.9897 \\
+\hline
+Word2Vec + Random Forest & 0.9382 & 0.9392 & 0.9347 & 0.9369 \\
+\hline
+GloVe + XGBoost & 0.9663 & 0.9681 & 0.9630 & 0.9656 \\
+\hline
+BERT & 0.9980 & 1.0000 & 0.9958 & 0.9979 \\
+\hline
+\end{tabular}
+\end{table*}
+
+\section*{Análise dos Resultados}
+
+Os dados revelam que o \textbf{BERT} supera todos os métodos, com \textbf{F1-score de 99,79\%}, graças à sua capacidade de interpretar contexto via mecanismos de atenção. Esse desempenho quase perfeito (precisão = 1,0) é crucial para aplicações onde falsos positivos são inaceitáveis, como em crises políticas.
+
+A combinação \textbf{TF-IDF + Regressão Logística} manteve relevância (\textbf{F1-score = 98,97\%}), sendo uma opção eficiente para ambientes com restrições computacionais. Por outro lado, métodos baseados em \textbf{embeddings estáticos} (Word2Vec, GloVe) tiveram desempenho inferior, mas ainda competitivo quando combinados a modelos como \textbf{XGBoost} (\textbf{F1-score = 96,56\%}).
+
+\subsection*{Implicações Práticas}
+\begin{itemize}
+    \item \textbf{BERT}: Ideal para cenários críticos, mas demanda recursos computacionais elevados.
+    \item \textbf{TF-IDF + LR}: Solução balanceada para implantação rápida.
+    \item \textbf{Word2Vec/GloVe}: Requerem ajustes finos em modelos complementares para compensar falta de contexto.
+\end{itemize}
+
+% --- Nota final alinhada ---
+\vspace{0.3cm}
+\noindent \footnotesize{\textit{Nota: Valores arredondados para 4 casas decimais. O uso de BERT é recomendado para tarefas de alta precisão, enquanto abordagens tradicionais são viáveis em sistemas legados.}}
+
+\section{Trabalhos Futuros}
+Com base nos resultados e limitações identificadas, propõem-se as seguintes direções para pesquisas futuras:
+
+\subsection{Otimização Automatizada de Hiperparâmetros}
+\begin{itemize}
+    \item \textbf{Otimização Bayesiana com Optuna}: Aplicar frameworks como Optuna para automatizar a busca de hiperparâmetros críticos (\textit{e.g.}, taxa de aprendizado, tamanho de \textit{batch}, arquitetura de camadas em redes neurais), visando superar os 99.95\% de acurácia alcançados. Estudos preliminares sugerem ganhos de 1-3\% em tarefas similares \cite{optuna_ref}.
+    
+    \item \textbf{Seleção Adaptativa de \textit{Embeddings}}: Utilizar otimização multiobjetivo para selecionar dinamicamente embeddings (GloVe, fastText, BERT) conforme características do dataset, combinando vantagens de modelos contextuais e estáticos.
+\end{itemize}
+
+\vspace{8cm}
+
+\subsection{Expansão de Arquiteturas Híbridas}
+\begin{itemize}
+    \item \textbf{CNN-RNN-Optimized}: Projetar arquiteturas híbridas com blocos residuais (ResNet) e mecanismos de atenção, utilizando otimização bayesiana para equilibrar profundidade e custo computacional. Isso poderia resolver a limitação da ResNet em dados textuais identificada no estudo.
+    
+    \item \textbf{Modelos Multimodais}: Integrar metadados (\textit{e.g.}, credibilidade da fonte, dados temporais) com NLP usando redes neurais gráficas (GNNs), otimizando fusão de features via Optuna.
+\end{itemize}
+
+\subsection{Generalização para Outros Idiomas e Domínios}
+\begin{itemize}
+    \item \textbf{Transfer Learning para Idiomas com Baixos Recursos}: Adaptar o modelo para idiomas como o indonésio (citado no estudo original) usando técnicas de \textit{few-shot learning} e otimização de adaptação de domínio.
+    
+    \item \textbf{Detecção Cross-Platform}: Validar o modelo em redes sociais emergentes (\textit{e.g.}, TikTok, Telegram) com ajuste fino bayesiano para padrões linguísticos específicos de cada plataforma.
+\end{itemize}
+
+\subsection{Explicabilidade e Robustness}
+\begin{itemize}
+    \item \textbf{Modelos Autoexplicáveis}: Desenvolver versões interpretáveis da Bidirectional LSTM usando mecanismos de atenção otimizados, permitindo identificar palavras-chave usadas na classificação.
+    
+    \item \textbf{Defesa Contra Adversários}: Implementar técnicas de \textit{adversarial training} com otimização de parâmetros de perturbação textual para aumentar a robustez contra ataques de falsificação sofisticados.
+\end{itemize}
+
+\subsection{Aspectos Práticos}
+\begin{itemize}
+    \item \textbf{Implantação em Tempo Real}: Otimizar latência usando técnicas de \textit{pruning} e quantização com busca bayesiana, visando dispositivos móveis ou sistemas de monitoramento contínuo.
+    
+    \item \textbf{Detecção Proativa}: Desenvolver pipelines que combinem análise de tendências (\textit{trend analysis}) com modelos de deep learning ajustados para prever surtos de fake news antes da viralização.
+\end{itemize}
+
+\vspace{0.2cm}
+\noindent \footnotesize{\textit{Nota: A integração de Optuna e métodos bayesianos permitiria não apenas melhorar métricas, mas também reduzir o tempo de experimentação em até 70\% conforme benchmarks recentes \cite{optuna_benchmark}.}}
+
+\newpage
+
+\begin{thebibliography}{00}
+\bibitem{b1} I. Kadek Sastrawan, I. P. A. Bayupati, and Dewa Made Sri Arsa, ``Detection of Fake News Using Deep Learning CNN--RNN Based Methods'' ICT Express, vol. 8, pp. 396--408, 2022. Available: https://www.sciencedirect.com/science/article/pii/S2405959521001375.
+
+\end{thebibliography}
+
+\vspace{12pt}
+
+\end{document}
